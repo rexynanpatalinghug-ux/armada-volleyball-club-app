@@ -50,7 +50,7 @@ document.querySelectorAll('[data-match]').forEach(el => {
     renderMatches();
   });
 });
-
+                        }
 function getStats(){let teams=['Team 1','Team 2','Team 3','Team 4'];let st=teams.map(t=>({team:t,w:0,l:0,pf:0,pa:0,mp:0}));fixtures.forEach((f,i)=>{let a=scores[i][0],b=scores[i][1];let A=st.find(x=>x.team===f[0]),B=st.find(x=>x.team===f[1]);if(a!==''){A.pf+=+a;B.pa+=+a}if(b!==''){B.pf+=+b;A.pa+=+b}if(a===''||b==='')return;let w=winner(f[0],f[1],a,b);if(w){A.mp++;B.mp++;if(w===f[0]){A.w++;B.l++}else{B.w++;A.l++}}});st.sort((a,b)=>b.w-a.w||b.pf-a.pf);st.forEach((x,i)=>x.rank=i&&x.w===st[i-1].w&&x.pf===st[i-1].pf?st[i-1].rank:i+1);return st}
 function renderStandings(){document.getElementById('standingRows').innerHTML=getStats().map(x=>`<tr><td class="rank">${x.rank}</td><td><b>${x.team}</b></td><td>${x.w}</td><td>${x.l}</td><td>${x.pf}</td><td>${x.pa}</td><td>${x.pf-x.pa>0?'+':''}${x.pf-x.pa}</td><td>${x.mp}</td></tr>`).join('')}
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab))}));
